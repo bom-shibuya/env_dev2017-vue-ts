@@ -9,9 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development webpack-dev-server --inline --hot",
-    "lint": "tslint 'app/src/**/*.{ts|js|vue}'",
-    "build": "NODE_ENV=development webpack --config webpack.config.ts",
-    "production": "NODE_ENV=production webpack --config webpack.config.ts",
+    "lint": "tslint --config './tslint.json' 'app/src/**/*.ts'",
+    "build": "NODE_ENV=development webpack --config webpack.config.js",
+    "production": "NODE_ENV=production webpack --config webpack.config.js",
     "server": "node server.js"
   },
   "keywords": [],
