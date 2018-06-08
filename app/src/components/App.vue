@@ -3,15 +3,20 @@
     Greeting(:greeting="greeting")
 </template>
 
+<style lang="sass"></style>
+
 <script lang="ts">
-import Greeting from './Greeting.vue';
+/* tslint:disable:prettier */
+/* tslint:enable:prettier */
+import Vue from 'vue'
+import Greeting from './Greeting.vue'
 
 interface Data {
   greeting: string
 }
 
-export default {
-  data: function(): Data {
+export default Vue.extend({
+  data(): Data {
     return {
       greeting: 'HELLO! PEACE WORLD!!!'
     }
@@ -19,9 +24,5 @@ export default {
   components: {
     Greeting
   }
-}
+})
 </script>
-
-<style lang="sass">
-
-</style>

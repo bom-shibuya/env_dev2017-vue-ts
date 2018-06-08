@@ -108,7 +108,8 @@ const rules = [
     loader: 'vue-loader',
     options: {
       loaders: {
-        sass: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting
+        sass: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting,
+        ts: 'ts-loader!tslint-loader'
       },
       cssSourceMap: ENV_DEVELOPMENT
     }

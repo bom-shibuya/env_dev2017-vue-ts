@@ -4,9 +4,21 @@
     "sourceMap": true,
     "strict": true,
     "module": "es2015",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noImplicitThis": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "app/src/*"
+      ]
+    }
   },
   "include": [
-    "./app/src/**/*.ts"
+    "./app/src/**/*.ts",
+    "./app/src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

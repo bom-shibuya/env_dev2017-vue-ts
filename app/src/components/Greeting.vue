@@ -2,14 +2,6 @@
   h1.title {{ greeting }}
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    greeting: String
-  }
-}
-</script>
-
 <style lang="sass" scoped>
   h1
     font-weight: bold
@@ -18,3 +10,16 @@ export default {
     +min-screen($tablet)
       font-size: 3.2rem
 </style>
+
+<script lang="ts">
+/* tslint:disable:no-consecutive-blank-lines */
+/* tslint:enable:no-consecutive-blank-lines */
+import Vue from 'vue'
+export default Vue.extend({
+  props: {
+    greeting: String
+  }
+})
+</script>
+
+

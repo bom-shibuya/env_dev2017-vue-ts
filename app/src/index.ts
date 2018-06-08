@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // import 'whatwg-fetch';
 // impot library
@@ -11,9 +11,9 @@
 // import modernizr from 'modernizr';
 //
 // console.log(modernizr);
-import App from './components/App.vue';
+import App from './components/App.vue'
 
-import Vue from 'vue';
+import Vue from 'vue'
 
 new Vue({
   el: '#app',
@@ -21,4 +21,4 @@ new Vue({
   components: {
     App
   }
-});
+})
