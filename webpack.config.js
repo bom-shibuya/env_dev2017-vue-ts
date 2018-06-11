@@ -18,7 +18,8 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const nodeExternals = require('webpack-node-externals');
 const Path = require('path');
 const DIR = require('./DIR.js');
 
@@ -108,7 +109,7 @@ const sassProdSetting = [
 
 const rules = [
   {
-    test: /\.sass$/,
+    test: /\.(sass|css)$/,
     use: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting
   },
   {
@@ -143,7 +144,7 @@ const rules = [
  * ::::: devtool ::::::::::::::::::::::::::::::
  */
 
-const devtool = 'cheap-module-source-map';
+const devtool = 'inline-cheap-module-source-map';
 
 
 /**
@@ -182,6 +183,8 @@ const config = {
   module: {
     rules: rules
   },
+  // テストのために導入
+  externals: [nodeExternals()],
   plugins: [
     new CleanWebpackPlugin(`./${DIR.dest}`),
     new VueLoaderPlugin(),
