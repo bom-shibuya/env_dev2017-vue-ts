@@ -12,12 +12,13 @@
  * ::::: REQUIRE MODULES ::::::::::::::::::::::::::::::
  */
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const Path = require('path');
 const DIR = require('./DIR.js');
 
@@ -65,32 +66,55 @@ const sassResources = [
   )
 ];
 
-const sassDevSetting = {
-  loader: 'vue-style-loader!css-loader!postcss-loader!sass-loader?indentedSyntax!sass-resources-loader',
-  options: {
-    resources: sassResources
-  }
-};
-
-const sassProdSetting = ExtractTextPlugin.extract({
-  use: [
-    {
-      loader: 'css-loader',
-      options: { minimize: true }
-    },
-    'postcss-loader',
-    'sass-loader?indentedSyntax',
-    {
-      loader: 'sass-resources-loader',
-      options: {
-        resources: sassResources
-      }
+const sassDevSetting = [
+  'vue-style-loader',
+  'css-loader',
+  'postcss-loader',
+  {
+    loader: 'sass-loader',
+    options: {
+      indentedSyntax: true
     }
-  ],
-  fallback: 'vue-style-loader'
-});
+  },
+  {
+    loader: 'sass-resources-loader',
+    options: {
+      resources: sassResources
+    }
+  }
+]
+
+const sassProdSetting = [
+  'vue-style-loader',
+  MiniCssExtractPlugin.loader,
+  {
+    loader: 'css-loader',
+    options: { minimize: true }
+  },
+  'postcss-loader',
+  {
+    loader: 'sass-loader',
+    options: {
+      indentedSyntax: true
+    }
+  },
+  {
+    loader: 'sass-resources-loader',
+    options: {
+      resources: sassResources
+    }
+  }
+];
 
 const rules = [
+  {
+    test: /\.sass$/,
+    use: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting
+  },
+  {
+    test: /\.pug$/,
+    loader: 'pug-plain-loader'
+  },
   {
     test: /\.ts$/,
     exclude: /node_modules/,
@@ -108,10 +132,8 @@ const rules = [
     loader: 'vue-loader',
     options: {
       loaders: {
-        sass: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting,
         ts: 'ts-loader!tslint-loader'
-      },
-      cssSourceMap: ENV_DEVELOPMENT
+      }
     }
   }
 ];
@@ -162,6 +184,7 @@ const config = {
   },
   plugins: [
     new CleanWebpackPlugin(`./${DIR.dest}`),
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       title: 'CRAZY WORLD',
       template: `./${DIR.src}index.html`
@@ -188,26 +211,24 @@ const config = {
  */
 
 if (ENV_DEVELOPMENT) {
+  config.mode = 'development';
   config.devtool = devtool;
   config.devServer = devServer;
 }
 
-
 /**
- * ::::: DEVELOPMENT ::::::::::::::::::::::::::::::
+ * ::::: PRODUCTION ::::::::::::::::::::::::::::::
  */
 
 if (ENV_PRODUCTION) {
+  config.mode = 'production';
   config.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
-    }),
     new UglifyJsPlugin({
       warningsFilter: () => true
     }),
-    new ExtractTextPlugin('bundle.css')
+    new MiniCssExtractPlugin({
+      filename: 'bundle.css'
+    })
   );
 }
 
