@@ -1,6 +1,6 @@
 {
-  "name": "Tokyo_Shibuya_Vue_dev",
-  "version": "1.0.0",
+  "name": "tokyo_shibuya_vue_dev",
+  "version": "1.1.0",
   "description": "Tokyo Shibuya Development Kit For Vue.js",
   "main": "index.js",
   "engines": {
@@ -9,7 +9,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
-    "lint": "cross-env tslint --config './tslint.json' 'app/src/**/*.{ts,vue}' --fix",
     "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "production": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "server": "cross-env node server.js"

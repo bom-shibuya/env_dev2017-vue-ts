@@ -12,8 +12,8 @@
 </style>
 
 <script lang="ts">
-/* tslint:disable:no-consecutive-blank-lines */
-/* tslint:enable:no-consecutive-blank-lines */
+/* tslint:disable:prettier */
+/* tslint:enable:prettier */
 import Vue from 'vue'
 export default Vue.extend({
   props: {
