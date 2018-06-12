@@ -31,6 +31,7 @@ const DIR = require('./DIR.js');
 const NODE_ENV = process.env.NODE_ENV;
 const ENV_DEVELOPMENT = NODE_ENV === 'development';
 const ENV_PRODUCTION = NODE_ENV === 'production';
+const ENV_TEST = NODE_ENV === 'test';
 
 /**
  * ::::: alias ::::::::::::::::::::::::::::::
@@ -110,7 +111,7 @@ const sassProdSetting = [
 const rules = [
   {
     test: /\.(sass|css)$/,
-    use: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting
+    use: ENV_PRODUCTION ? sassProdSetting : sassDevSetting
   },
   {
     test: /\.pug$/,
@@ -146,7 +147,6 @@ const rules = [
 
 const devtool = 'inline-cheap-module-source-map';
 
-
 /**
  * ::::: devserver ::::::::::::::::::::::::::::::
  */
@@ -173,7 +173,7 @@ const config = {
   // ファイル名解決のための設定
   resolve: {
     // 拡張子の省略
-    extensions: ['ts', 'vue', '.js'],
+    extensions: ['.ts', '.vue', '.js'],
     // moduleのディレクトリ指定
     modules: ['node_modules'],
     // プラグインのpath解決
@@ -183,8 +183,6 @@ const config = {
   module: {
     rules: rules
   },
-  // テストのために導入
-  externals: [nodeExternals()],
   plugins: [
     new CleanWebpackPlugin(`./${DIR.dest}`),
     new VueLoaderPlugin(),
@@ -235,6 +233,18 @@ if (ENV_PRODUCTION) {
   );
 }
 
+/**
+ * ::::: TEST ::::::::::::::::::::::::::::::
+ */
+  if (ENV_TEST) {
+    config.mode = 'development';
+    config.externals = [nodeExternals()];
+    config.target = 'node';
+    config.output = {
+      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+    };
+  }
 
 /**
  * ::::: EXPORTS ::::::::::::::::::::::::::::::
