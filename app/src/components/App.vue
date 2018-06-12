@@ -40,7 +40,7 @@
 /* tslint:disable:prettier */
 /* tslint:enable:prettier */
 import Vue from 'vue'
-import Greeting from './Greeting.vue'
+import Greeting from '@/components/Greeting.vue'
 
 interface Data {
   greeting: string

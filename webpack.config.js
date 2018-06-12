@@ -41,7 +41,8 @@ const alias = {
   modernizr$: Path.resolve(__dirname, '.modernizrrc'),
   ScrollToPlugin: 'gsap/ScrollToPlugin.js',
   EasePack: 'gsap/EasePack.js',
-  vue$: 'vue/dist/vue.common.js'
+  vue$: 'vue/dist/vue.common.js',
+  '@': Path.resolve(__dirname, 'app/src')
 };
 
 

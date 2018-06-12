@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "noImplicitThis": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": [
         "app/src/*"
