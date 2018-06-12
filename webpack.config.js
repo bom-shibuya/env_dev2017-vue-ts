@@ -136,7 +136,8 @@ const rules = [
     options: {
       loaders: {
         ts: 'ts-loader!tslint-loader'
-      }
+      },
+      optimizeSSR: false
     }
   }
 ];
