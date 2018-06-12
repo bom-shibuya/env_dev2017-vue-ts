@@ -3,8 +3,8 @@
     Greeting(:greeting="greeting")
     .num {{ count }}
     .buttons
-      button.mod-plus(@click="increase") +
-      button.mod-minus(@click="decrease") -
+      button.plusBtn.mod-plus(@click="increase") +
+      button.minusBtn.mod-minus(@click="decrease") -
 </template>
 
 <style lang="sass">
