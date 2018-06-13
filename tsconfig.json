@@ -1,6 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015"
+    ],
     "sourceMap": true,
     "strict": true,
     "module": "es2015",
@@ -20,5 +26,5 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }
