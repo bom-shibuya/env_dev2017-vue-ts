@@ -11,7 +11,7 @@
 // import modernizr from 'modernizr';
 //
 // console.log(modernizr);
-import App from './components/App.vue'
+import App from '@/components/App.vue'
 
 import Vue from 'vue'
 
