@@ -18,7 +18,8 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const nodeExternals = require('webpack-node-externals');
 const Path = require('path');
 const DIR = require('./DIR.js');
 
@@ -30,6 +31,7 @@ const DIR = require('./DIR.js');
 const NODE_ENV = process.env.NODE_ENV;
 const ENV_DEVELOPMENT = NODE_ENV === 'development';
 const ENV_PRODUCTION = NODE_ENV === 'production';
+const ENV_TEST = NODE_ENV === 'test';
 
 /**
  * ::::: alias ::::::::::::::::::::::::::::::
@@ -39,9 +41,9 @@ const alias = {
   modernizr$: Path.resolve(__dirname, '.modernizrrc'),
   ScrollToPlugin: 'gsap/ScrollToPlugin.js',
   EasePack: 'gsap/EasePack.js',
-  vue$: 'vue/dist/vue.common.js'
+  vue$: 'vue/dist/vue.common.js',
+  '@': DIR.src$
 };
-
 
 /**
  * ::::: RULE ::::::::::::::::::::::::::::::
@@ -108,8 +110,8 @@ const sassProdSetting = [
 
 const rules = [
   {
-    test: /\.sass$/,
-    use: ENV_DEVELOPMENT ? sassDevSetting : sassProdSetting
+    test: /\.(sass|css)$/,
+    use: ENV_PRODUCTION ? sassProdSetting : sassDevSetting
   },
   {
     test: /\.pug$/,
@@ -133,7 +135,8 @@ const rules = [
     options: {
       loaders: {
         ts: 'ts-loader!tslint-loader'
-      }
+      },
+      optimizeSSR: false
     }
   }
 ];
@@ -143,8 +146,7 @@ const rules = [
  * ::::: devtool ::::::::::::::::::::::::::::::
  */
 
-const devtool = 'cheap-module-source-map';
-
+const devtool = 'inline-cheap-module-source-map';
 
 /**
  * ::::: devserver ::::::::::::::::::::::::::::::
@@ -172,7 +174,7 @@ const config = {
   // ファイル名解決のための設定
   resolve: {
     // 拡張子の省略
-    extensions: ['ts', 'vue', '.js'],
+    extensions: ['.ts', '.vue', '.js'],
     // moduleのディレクトリ指定
     modules: ['node_modules'],
     // プラグインのpath解決
@@ -232,6 +234,18 @@ if (ENV_PRODUCTION) {
   );
 }
 
+/**
+ * ::::: TEST ::::::::::::::::::::::::::::::
+ */
+  if (ENV_TEST) {
+    config.mode = 'development';
+    config.externals = [nodeExternals()];
+    config.target = 'node';
+    config.output = {
+      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+    };
+  }
 
 /**
  * ::::: EXPORTS ::::::::::::::::::::::::::::::

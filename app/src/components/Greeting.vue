@@ -5,6 +5,8 @@
 <style lang="sass" scoped>
   h1
     font-weight: bold
+    text-align: center
+    margin: 4rem
     +max-screen($sp)
       font-size: 2.4rem
     +min-screen($tablet)
